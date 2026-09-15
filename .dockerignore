@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env
+.env*.local
+*.md
+.agents
+.claude
+.cursor
+.devin
+gateway-agent/node_modules
