@@ -1,17 +1,35 @@
 {
-  "name": "monitor-tool",
+  "name": "home-network-monitor-tool",
   "version": "0.1.0",
   "private": true,
+  "description": "Open-source family hotspot monitor: pause, speed caps, AdGuard DNS, Telegram digests",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashishkumarjaiswal/home-network-monitor-tool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ashishkumarjaiswal/home-network-monitor-tool/issues"
+  },
+  "homepage": "https://github.com/ashishkumarjaiswal/home-network-monitor-tool#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "worker": "tsx scripts/worker.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "dotenv": "^17.4.2",
     "next": "16.3.5",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,7 +38,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

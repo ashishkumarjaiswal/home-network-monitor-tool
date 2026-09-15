@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Device {
+  id               String       @id @default(cuid())
+  name             String
+  macAddress       String?      @unique
+  ipAddress        String?
+  notes            String?
+  downloadLimitKbps Int?
+  uploadLimitKbps   Int?
+  monthlyCapBytes  BigInt?
+  paused           Boolean      @default(false)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  usageMonths      UsageMonth[]
+  dnsEvents        DnsEvent[]
+}
+
+model UsageMonth {
+  id           String   @id @default(cuid())
+  deviceId     String
+  device       Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  yearMonth    String
+  bytesIn      BigInt   @default(0)
+  bytesOut     BigInt   @default(0)
+  updatedAt    DateTime @updatedAt
+
+  @@unique([deviceId, yearMonth])
+  @@index([yearMonth])
+}
+
+model DnsEvent {
+  id        String   @id @default(cuid())
+  deviceId  String?
+  device    Device?  @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+  clientIp  String?
+  domain    String
+  blocked   Boolean  @default(false)
+  reason    String?
+  queriedAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([queriedAt])
+  @@index([domain])
+  @@index([clientIp])
+}
+
+model AiDigest {
+  id        String   @id @default(cuid())
+  period    String
+  summary   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
