@@ -55,8 +55,8 @@ async function deviceFacts(deviceId: string, ip: string | null, since: Date) {
     .join(", ");
 
   return {
-    bytesIn: usage?.bytesIn ?? 0n,
-    bytesOut: usage?.bytesOut ?? 0n,
+    bytesIn: usage?.bytesIn ?? BigInt(0),
+    bytesOut: usage?.bytesOut ?? BigInt(0),
     dnsCount: events.length,
     blocked,
     topDomains: topDomains || "none",
